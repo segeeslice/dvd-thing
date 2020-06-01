@@ -1,0 +1,31 @@
+# DVD Thing TODO
+*(In ordnung of importants)*
+
+- Define logic to detect a "win" (getting it in the corner)
+- Allow for resizable window
+- Change color on each bounce
+- Pop-up modes dialog w/ checkboxes
+  - Interactive mode
+    - Clicking somewhere under would make logo go up, etc.
+  - Rave mode
+    - Play song
+      - Perfectly looping drop of various songs?
+    - On each beat
+      - Zoom to next wall
+  - Dodge mode
+    - Play a little character trying to zoom and dodge the dvd logo
+    - Speed of logo increases as game continues
+  - Chill mode
+    - Stream lofi or something
+    - Have cherry blossom petals falling slowly
+  - Race mode
+    - Multiple dvd logos with different, consistent colors
+    - Make bets on which will win
+    - Slowly increase speed to make faster
+  - Location possibilities
+    - Right side, basic dialog
+    - Hamburger menu, top left
+    - Investigate old dvd menu formats
+  - Potentially have different secret ways to unlock each mode?
+- Stylize an overlay to look like old LCD TV
+- Allow for instant replay of corner slappin
