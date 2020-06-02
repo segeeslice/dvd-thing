@@ -1,6 +1,7 @@
 # DVD Thing TODO
 *(In ordnung of importants)*
 
+- Randomize starting location & direction
 - Define logic to detect a "win" (getting it in the corner)
 - Allow for resizable window
 - Change color on each bounce
