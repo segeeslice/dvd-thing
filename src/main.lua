@@ -68,6 +68,19 @@ function love.draw()
 end
 
 function love.update(dt)
+  if love.keyboard.isDown('up') then
+    LOGO_SPEED = LOGO_SPEED + 700*dt
+  end
+
+  if love.keyboard.isDown('down') then
+    LOGO_SPEED = LOGO_SPEED - 300*dt
+  end
+
+  if love.keyboard.isDown('=') then
+    LOGO_SPEED = 100
+  end
+
   local incVal = LOGO_SPEED * dt
   incLogoPosition(incVal)
 end
+
