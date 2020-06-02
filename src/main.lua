@@ -1,3 +1,5 @@
+require "Observer"
+
 -- ** Global Definitions **
 
 -- Speed in pixels / sec
@@ -44,8 +46,10 @@ function incLogoPosition (incVal)
   for k,o in pairs(logo) do
     if o.shouldInc == true and o.position + o.size + incVal > WIN[k].size then
       o.shouldInc = false
+      Observer:notify('onBounce', 'Bouncy!')
     elseif o.shouldInc == false and o.position - incVal < 0 then
       o.shouldInc = true
+      Observer:notify('onBounce', 'Boingy!')
     end
 
     if o.shouldInc == true then
@@ -61,6 +65,8 @@ end
 function love.load()
   WIN.x.size, WIN.y.size = love.graphics.getDimensions()
   DVD_LOGO_IMG = love.graphics.newImage('resources/dvd-logo.png')
+
+  Observer:subscribe('onBounce', print)
 end
 
 function love.draw()
