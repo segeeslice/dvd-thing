@@ -63,10 +63,17 @@ end
 -- ** Love callbacks **
 
 function love.load()
+  love.window.setMode(0, 0, { resizable=true })
+
   WIN.x.size, WIN.y.size = love.graphics.getDimensions()
   DVD_LOGO_IMG = love.graphics.newImage('resources/dvd-logo.png')
 
   Observer:subscribe('onBounce', print)
+end
+
+function love.resize(w, h)
+  WIN.x.size = w
+  WIN.y.size = h
 end
 
 function love.draw()
