@@ -63,7 +63,11 @@ end
 -- ** Love callbacks **
 
 function love.load()
-  love.window.setMode(0, 0, { resizable=true })
+  love.window.setMode(0, 0, {
+    resizable = true,
+    minwidth = 800,
+    minheight = 600
+  })
 
   WIN.x.size, WIN.y.size = love.graphics.getDimensions()
   DVD_LOGO_IMG = love.graphics.newImage('resources/dvd-logo.png')
