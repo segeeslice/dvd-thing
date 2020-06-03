@@ -27,6 +27,8 @@ Observer.notify = function(self, key, ...)
   end
 end
 
+Observer.__metatable = "No no no no no no no"
+
 --[[
 --Currently registered events:
 --
