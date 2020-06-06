@@ -20,6 +20,16 @@ function Observer:unsubscribe (key, cb)
   end
 end
 
+-- Subscribe/unsubscribe syntactic sugar
+-- e.g. obs:on('event'):call(print)
+function Observer:on (key)
+  return {
+    -- _ just for code consistency with :
+    call = function (_, cb) self:subscribe(key, cb) end,
+    dontCall = function (_, cb) self:unsubscribe(key, cb) end
+  }
+end
+
 function Observer:notify (key, ...)
   if self.map[key] ~= nil then
     for _, f in ipairs(self.map[key]) do
