@@ -22,11 +22,21 @@ end
 
 -- Subscribe/unsubscribe syntactic sugar
 -- e.g. obs:on('event'):call(print)
+-- e.g. obs:on('event'):from(object):call(object.requiresSelf)
 function Observer:on (key)
   return {
-    -- _ just for code consistency with :
     call = function (_, cb) self:subscribe(key, cb) end,
-    dontCall = function (_, cb) self:unsubscribe(key, cb) end
+    from = function(_, obj)
+      return {
+        call = function (_, cb)
+          newCb = function (...) cb(obj, ...) end
+          self:subscribe(key, newCb)
+        end
+      }
+    end,
+    dont = {
+      call = function (_, cb) self:unsubscribe(key, cb) end
+    }
   }
 end
 

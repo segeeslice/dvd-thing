@@ -6,6 +6,8 @@
 --
 --   draw()
 --   new{ width (opt), height (opt), img (opt) }
+--
+--   @bounce
 -- }
 
 require "Observer"
@@ -41,6 +43,30 @@ function Logo:draw ()
   local imgScaleY = self.y.size / self.img:getHeight()
 
   love.graphics.draw(self.img, self.x.position, self.y.position, 0, imgScaleX, imgScaleY)
+end
+
+-- TODO: replace with generic physics system & vectors
+function Logo:incPosition (incVal)
+  for k,o in pairs({ x = self.x, y = self.y }) do
+    if o.shouldInc == true and o.position + o.size + incVal > WIN[k].size then
+      self:notify('bounce')
+      o.shouldInc = false
+    elseif o.shouldInc == false and o.position - incVal < 0 then
+      self:notify('bounce')
+      o.shouldInc = true
+    end
+
+    if o.shouldInc == true then
+      o.position = o.position + incVal
+    else
+      o.position = o.position - incVal
+    end
+  end
+end
+
+function Logo:onUpdate (dt)
+  local incVal = LOGO_SPEED * dt
+  self:incPosition(incVal)
 end
 
 function Logo:new (arg)

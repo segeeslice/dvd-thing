@@ -17,27 +17,6 @@ WIN = {
   }
 }
 
--- ** Util methods **
-
--- TODO: move to generic RigidBody class
-function incLogoPosition (logo, incVal)
-  for k,o in pairs({ x = logo.x, y = logo.y }) do
-    if o.shouldInc == true and o.position + o.size + incVal > WIN[k].size then
-      o.shouldInc = false
-      logo:notify('bounce', 'Bouncy!')
-    elseif o.shouldInc == false and o.position - incVal < 0 then
-      o.shouldInc = true
-      logo:notify('bounce', 'Boingy!')
-    end
-
-    if o.shouldInc == true then
-      o.position = o.position + incVal
-    else
-      o.position = o.position - incVal
-    end
-  end
-end
-
 -- ** Love callbacks **
 
 function love.load()
@@ -48,9 +27,13 @@ function love.load()
   })
 
   WIN.x.size, WIN.y.size = love.graphics.getDimensions()
+  OBSERVER = Observer:new()
 
   LOGO = Logo:new()
-  LOGO:on('bounce'):call(print)
+  OBSERVER:on('update'):from(LOGO):call(LOGO.onUpdate)
+
+  -- TODO: sound effect or something?
+  LOGO:on('bounce'):call(function () print('Bouncey') end)
 end
 
 function love.resize(w, h)
@@ -63,6 +46,5 @@ function love.draw()
 end
 
 function love.update(dt)
-  local incVal = LOGO_SPEED * dt
-  incLogoPosition(LOGO, incVal)
+  OBSERVER:notify('update', dt)
 end
