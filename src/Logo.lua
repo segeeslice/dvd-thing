@@ -1,8 +1,22 @@
+-- {
+-- Logo : Observer
+--   x = Direction
+--   y = Direction
+--   img = Love image
+--
+--   draw()
+--   new{ width (opt), height (opt), img (opt) }
+-- }
+
+require "Observer"
+require "utils"
+
 -- ** Constants **
 
 DVD_LOGO_PATH = 'resources/dvd-logo.png'
 
 -- ** Direction **
+-- TODO: Refactor to generic "velocity" vector
 
 Direction = {}
 
@@ -15,8 +29,7 @@ function Direction:new (arg)
     shouldInc = arg.shouldInc or true
   }
 
-  setmetatable(dir, { __index = self })
-  return dir
+  return setmetatable(dir, { __index = self })
 end
 
 -- ** Logo **
@@ -39,6 +52,8 @@ function Logo:new (arg)
     img = arg.img or love.graphics.newImage(DVD_LOGO_PATH)
   }
 
-  setmetatable(logo, { __index = self })
-  return logo
+  -- Inheritance
+  local mt = setmetatable(utils.copy(self), { __index = Observer:new() })
+
+  return setmetatable(logo, { __index = mt })
 end

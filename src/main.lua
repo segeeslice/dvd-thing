@@ -24,10 +24,10 @@ function incLogoPosition (logo, incVal)
   for k,o in pairs({ x = logo.x, y = logo.y }) do
     if o.shouldInc == true and o.position + o.size + incVal > WIN[k].size then
       o.shouldInc = false
-      Observer:notify('onBounce', 'Bouncy!')
+      logo:notify('onBounce', 'Bouncy!')
     elseif o.shouldInc == false and o.position - incVal < 0 then
       o.shouldInc = true
-      Observer:notify('onBounce', 'Boingy!')
+      logo:notify('onBounce', 'Boingy!')
     end
 
     if o.shouldInc == true then
@@ -50,7 +50,7 @@ function love.load()
   WIN.x.size, WIN.y.size = love.graphics.getDimensions()
 
   LOGO = Logo:new()
-  Observer:subscribe('onBounce', print)
+  LOGO:subscribe('onBounce', print)
 end
 
 function love.resize(w, h)

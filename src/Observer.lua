@@ -1,6 +1,7 @@
 -- Observer class for event-driven interactions
 
-Observer = { map = {} }
+Observer = {}
+Observer.__metatable = "No no no no no no no"
 
 function Observer:subscribe (key, cb)
   if self.map[key] == nil then
@@ -27,7 +28,10 @@ function Observer:notify (key, ...)
   end
 end
 
-Observer.__metatable = "No no no no no no no"
+function Observer:new ()
+  local obs = { map = {} }
+  return setmetatable(obs, { __index = self })
+end
 
 --[[
 --Currently registered events:
