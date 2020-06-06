@@ -1,24 +1,27 @@
--- === Constants ===
+-- ** Constants **
 
 DVD_LOGO_PATH = 'resources/dvd-logo.png'
 
--- === Direction ===
+-- ** Direction **
 
-Direction = {
-  position = 0,
-  size = 0,
-  shouldInc = true
-}
+Direction = {}
 
-function Direction:new (o)
-  o = o or {}
-  setmetatable(o, { __index = self })
-  return o
+function Direction:new (arg)
+  arg = arg or {}
+
+  local dir = {
+    position = arg.position or 0,
+    size = arg.size or 0,
+    shouldInc = arg.shouldInc or true
+  }
+
+  setmetatable(dir, { __index = self })
+  return dir
 end
 
--- === Logo ===
+-- ** Logo **
 
-Logo = { }
+Logo = {}
 
 function Logo:draw ()
   local imgScaleX = self.x.size / self.img:getWidth()
