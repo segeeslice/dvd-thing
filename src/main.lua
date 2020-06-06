@@ -1,14 +1,13 @@
 require "Observer"
+require "Logo"
 
 -- ** Global Definitions **
 
 -- Speed in pixels / sec
+-- TODO: move to generic RigidBody class
 LOGO_SPEED = 100
 
-DVD_LOGO_IMG = nil
-
 -- Global window object for more efficient storing of data
--- TODO: allow resize and update this tracker
 WIN = {
   x = {
     size = 0
@@ -18,32 +17,11 @@ WIN = {
   }
 }
 
--- Global logo data for x and y directions
-logo = {
-  x = {
-    position = 0,
-    size = 150,
-    shouldInc = true
-  },
-  y = {
-    position = 0,
-    size = 80,
-    shouldInc = true
-  }
-}
-
 -- ** Util methods **
--- TODO: Move logo stuff to own class in separate file
 
-function drawLogo ()
-  if DVD_LOGO_IMG == nil then return end
-  local scaleX = logo.x.size / DVD_LOGO_IMG:getWidth()
-  local scaleY = logo.y.size / DVD_LOGO_IMG:getHeight()
-  love.graphics.draw(DVD_LOGO_IMG, logo.x.position, logo.y.position, 0, scaleX, scaleY)
-end
-
-function incLogoPosition (incVal)
-  for k,o in pairs(logo) do
+-- TODO: move to generic RigidBody class
+function incLogoPosition (logo, incVal)
+  for k,o in pairs({ x = logo.x, y = logo.y }) do
     if o.shouldInc == true and o.position + o.size + incVal > WIN[k].size then
       o.shouldInc = false
       Observer:notify('onBounce', 'Bouncy!')
@@ -70,8 +48,8 @@ function love.load()
   })
 
   WIN.x.size, WIN.y.size = love.graphics.getDimensions()
-  DVD_LOGO_IMG = love.graphics.newImage('resources/dvd-logo.png')
 
+  LOGO = Logo:new()
   Observer:subscribe('onBounce', print)
 end
 
@@ -81,10 +59,10 @@ function love.resize(w, h)
 end
 
 function love.draw()
-  drawLogo()
+  LOGO:draw()
 end
 
 function love.update(dt)
   local incVal = LOGO_SPEED * dt
-  incLogoPosition(incVal)
+  incLogoPosition(LOGO, incVal)
 end

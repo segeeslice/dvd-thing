@@ -2,7 +2,7 @@
 
 Observer = { map = {} }
 
-Observer.subscribe = function(self, key, cb)
+function Observer:subscribe (key, cb)
   if self.map[key] == nil then
     self.map[key] = {}
   end
@@ -10,7 +10,7 @@ Observer.subscribe = function(self, key, cb)
   table.insert(self.map[key], cb)
 end
 
-Observer.unsubscribe = function(self, key, cb)
+function Observer:unsubscribe (key, cb)
   for i, f in ipairs(self.map[key]) do
     if f == cb then
       table.remove(self.map[key], i)
@@ -19,7 +19,7 @@ Observer.unsubscribe = function(self, key, cb)
   end
 end
 
-Observer.notify = function(self, key, ...)
+function Observer:notify (key, ...)
   if self.map[key] ~= nil then
     for _, f in ipairs(self.map[key]) do
       f(...)
