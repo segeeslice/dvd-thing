@@ -1,6 +1,6 @@
 # DVD... Thing
 
-**Current version:** v0.0.0
+**Current version:** v0.1.0
 
 A small pet project of mine to create a familiar [bouncing DVD
 logo](https://bouncingdvdlogo.com) with some extra twists.
