@@ -1,7 +1,10 @@
-require "Observer"
-require "Logo"
+require "classes/Observer"
+require "classes/Logo"
 
 -- ** Global Definitions **
+
+-- Global observer for love events
+OBSERVER = {}
 
 -- Global window object for more efficient storing of data
 WIN = {

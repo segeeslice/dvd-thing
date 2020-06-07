@@ -5,8 +5,8 @@
 --   @bounce
 -- }
 
-require "RigidBody"
-require "Vector"
+require "classes/RigidBody"
+require "classes/Vector"
 require "utils"
 
 -- ** Constants **

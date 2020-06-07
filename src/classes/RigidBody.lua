@@ -18,8 +18,8 @@
 --   }
 -- }
 
-require "Observer"
-require "Vector"
+require "classes/Observer"
+require "classes/Vector"
 require "utils"
 
 RigidBody = {}
