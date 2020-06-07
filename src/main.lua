@@ -3,10 +3,6 @@ require "Logo"
 
 -- ** Global Definitions **
 
--- Speed in pixels / sec
--- TODO: move to generic RigidBody class
-LOGO_SPEED = 100
-
 -- Global window object for more efficient storing of data
 WIN = {
   x = {

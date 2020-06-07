@@ -18,16 +18,29 @@
 --   }
 -- }
 
-require "Vector"
 require "Observer"
+require "Vector"
 require "utils"
 
 RigidBody = {}
+
+function RigidBody:getXRight ()
+  return self.x + self.width
+end
+
+function RigidBody:getYBottom ()
+  return self.y + self.height
+end
 
 function RigidBody:draw ()
   local scaleX = self.width / self.sprite:getWidth()
   local scaleY = self.height / self.sprite:getHeight()
   love.graphics.draw(self.sprite, self.x, self.y, 0, scaleX, scaleY)
+end
+
+function RigidBody:updatePosition (dt)
+  self.x = self.x + self.velocity.x * dt
+  self.y = self.y + self.velocity.y * dt
 end
 
 -- TODO: onUpdate general physics

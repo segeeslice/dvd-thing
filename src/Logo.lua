@@ -1,74 +1,51 @@
 -- {
 -- Logo : RigidBody : Observer
---   new{ width (opt), height (opt), x (opt), y (opt) }
+--   new{ width (opt), height (opt), x (opt), y (opt), speed (opt) }
 --
 --   @bounce
 -- }
 
 require "RigidBody"
+require "Vector"
 require "utils"
 
 -- ** Constants **
 
 DVD_LOGO_PATH = 'resources/dvd-logo.png'
-
--- ** Direction **
--- TODO: Refactor to generic "velocity" vector
-
-Direction = {}
-
-function Direction:new (arg)
-  arg = arg or {}
-
-  local dir = {
-    position = arg.position or 0,
-    size = arg.size or 0,
-    shouldInc = arg.shouldInc or true
-  }
-
-  return setmetatable(dir, { __index = self })
-end
+DEFAULT_LOGO_SPEED = 100 -- px/sec
 
 -- ** Logo **
 
 Logo = {}
 
--- TODO: replace with generic physics system & vectors
-function Logo:incPosition (incVal)
-  self.x = self.x + incVal
-  self.y = self.y + incVal
-
-  --for k,o in pairs({ x = self.x, y = self.y }) do
-    --if o.shouldInc == true and o.position + o.size + incVal > WIN[k].size then
-      --self:notify('bounce')
-      --o.shouldInc = false
-    --elseif o.shouldInc == false and o.position - incVal < 0 then
-      --self:notify('bounce')
-      --o.shouldInc = true
-    --end
-
-    --if o.shouldInc == true then
-      --o.position = o.position + incVal
-    --else
-      --o.position = o.position - incVal
-    --end
-  --end
-end
-
 function Logo:onUpdate (dt)
-  local incVal = LOGO_SPEED * dt
-  self:incPosition(incVal)
+  -- Update position based on velocity vector
+  self:updatePosition(dt)
+
+  -- Detect collisions
+  -- TODO: Generalize within container, somehow?
+  if (self.velocity.x > 0 and self:getXRight() >= WIN.x.size or
+      self.velocity.x < 0 and self.x < 0) then
+    self.velocity.x = -1 * self.velocity.x
+  end
+
+  if (self.velocity.y > 0 and self:getYBottom() >= WIN.y.size or
+      self.velocity.y < 0 and self.y < 0) then
+    self.velocity.y = -1 * self.velocity.y
+  end
 end
 
 function Logo:new (arg)
   arg = arg or {}
 
+  local speed = arg.speed or DEFAULT_LOGO_SPEED
   local rb = RigidBody:new{
     x = arg.x,
     y = arg.y,
     width = arg.width or 150,
     height = arg.height or 80,
-    sprite = love.graphics.newImage(DVD_LOGO_PATH)
+    sprite = love.graphics.newImage(DVD_LOGO_PATH),
+    velocity = Vector:new{x = speed, y = speed}
   }
 
   -- Inheritance
