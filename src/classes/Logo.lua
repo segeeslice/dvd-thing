@@ -14,9 +14,38 @@ require "utils"
 DVD_LOGO_PATH = 'resources/dvd-logo.png'
 DEFAULT_LOGO_SPEED = 100 -- px/sec
 
+MAX_SHAKE_DIST = 700
+MAX_SHAKE_OFFSET = 30
+
 -- ** Logo **
 
 Logo = {}
+
+function Logo:onMouseUpdate (x, y)
+  local dist = self:getDistFrom(x, y)
+
+  if (dist > MAX_SHAKE_DIST) then
+    self._shakeAmount = 0
+  else
+    -- TODO: eased increase instead of linear
+    self._shakeAmount = (MAX_SHAKE_DIST - dist) / MAX_SHAKE_DIST
+  end
+end
+
+function Logo:_getRandomShakeOffset ()
+  return math.random(-MAX_SHAKE_OFFSET, MAX_SHAKE_OFFSET) * self._shakeAmount
+end
+
+function Logo:draw ()
+  if (self._shakeAmount == 0) then
+    -- TODO: find better way to do this like super:draw()
+    RigidBody.draw(self)
+  else
+    local shakenX = self.x + self:_getRandomShakeOffset()
+    local shakenY = self.y + self:_getRandomShakeOffset()
+    RigidBody.draw(self, shakenX, shakenY)
+  end
+end
 
 function Logo:onUpdate (dt)
   -- Update position based on velocity vector
@@ -45,7 +74,8 @@ function Logo:new (arg)
     width = arg.width or 150,
     height = arg.height or 80,
     sprite = love.graphics.newImage(DVD_LOGO_PATH),
-    velocity = Vector:new{x = speed, y = speed}
+    velocity = Vector:new{x = speed, y = speed},
+    _shakeAmount = 0 -- Value 0-1 indicating strength of shake
   }
 
   -- Inheritance
