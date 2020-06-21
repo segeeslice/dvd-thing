@@ -25,6 +25,8 @@ function love.load()
     minheight = 600
   })
 
+  math.randomseed(os.time())
+
   WIN.x.size, WIN.y.size = love.graphics.getDimensions()
   OBSERVER = Observer:new()
 
@@ -43,8 +45,7 @@ function love.draw()
 end
 
 function love.update(dt)
-  OBSERVER:notify('update', dt)
-
   local x, y = love.mouse.getPosition()
   OBSERVER:notify('mouseUpdate', x, y)
+  OBSERVER:notify('update', dt)
 end

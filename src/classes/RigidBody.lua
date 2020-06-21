@@ -32,10 +32,11 @@ function RigidBody:getYBottom ()
   return self.y + self.height
 end
 
-function RigidBody:draw ()
+-- x, y optional; defaults to self.x and self.y
+function RigidBody:draw (x, y)
   local scaleX = self.width / self.sprite:getWidth()
   local scaleY = self.height / self.sprite:getHeight()
-  love.graphics.draw(self.sprite, self.x, self.y, 0, scaleX, scaleY)
+  love.graphics.draw(self.sprite, x or self.x, y or self.y, 0, scaleX, scaleY)
 end
 
 function RigidBody:updatePosition (dt)
