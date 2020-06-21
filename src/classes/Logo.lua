@@ -18,6 +18,10 @@ DEFAULT_LOGO_SPEED = 100 -- px/sec
 
 Logo = {}
 
+function Logo:onMouseUpdate (x, y)
+  local dist = self:getDistFrom(x, y)
+end
+
 function Logo:onUpdate (dt)
   -- Update position based on velocity vector
   self:updatePosition(dt)

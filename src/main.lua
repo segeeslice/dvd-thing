@@ -30,9 +30,7 @@ function love.load()
 
   LOGO = Logo:new()
   OBSERVER:on('update'):from(LOGO):call(LOGO.onUpdate)
-
-  -- TODO: sound effect or something?
-  LOGO:on('bounce'):call(function () print('Bouncey') end)
+  OBSERVER:on('mouseUpdate'):from(LOGO):call(LOGO.onMouseUpdate)
 end
 
 function love.resize(w, h)
@@ -46,4 +44,7 @@ end
 
 function love.update(dt)
   OBSERVER:notify('update', dt)
+
+  local x, y = love.mouse.getPosition()
+  OBSERVER:notify('mouseUpdate', x, y)
 end
