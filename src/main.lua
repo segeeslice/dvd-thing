@@ -1,7 +1,10 @@
-require "Observer"
-require "Logo"
+require "classes/Observer"
+require "classes/Logo"
 
 -- ** Global Definitions **
+
+-- Global observer for love events
+OBSERVER = {}
 
 -- Global window object for more efficient storing of data
 WIN = {
@@ -22,14 +25,14 @@ function love.load()
     minheight = 600
   })
 
+  math.randomseed(os.time())
+
   WIN.x.size, WIN.y.size = love.graphics.getDimensions()
   OBSERVER = Observer:new()
 
   LOGO = Logo:new()
   OBSERVER:on('update'):from(LOGO):call(LOGO.onUpdate)
-
-  -- TODO: sound effect or something?
-  LOGO:on('bounce'):call(function () print('Bouncey') end)
+  OBSERVER:on('mouseUpdate'):from(LOGO):call(LOGO.onMouseUpdate)
 end
 
 function love.resize(w, h)
@@ -42,5 +45,7 @@ function love.draw()
 end
 
 function love.update(dt)
+  local x, y = love.mouse.getPosition()
+  OBSERVER:notify('mouseUpdate', x, y)
   OBSERVER:notify('update', dt)
 end
