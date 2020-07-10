@@ -7,6 +7,7 @@ require "classes/Logo"
 OBSERVER = {}
 
 -- Global window object for more efficient storing of data
+-- TODO: to width/height
 WIN = {
   x = {
     size = 0
@@ -46,6 +47,6 @@ end
 
 function love.update(dt)
   local x, y = love.mouse.getPosition()
-  OBSERVER:notify('mouseUpdate', x, y)
+  OBSERVER:notify('mouseUpdate', x, y, WIN.x.size, WIN.y.size)
   OBSERVER:notify('update', dt)
 end

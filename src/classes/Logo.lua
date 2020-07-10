@@ -21,7 +21,17 @@ MAX_SHAKE_OFFSET = 30
 
 Logo = {}
 
-function Logo:onMouseUpdate (x, y)
+function Logo:onMouseUpdate (x, y, winWidth, winHeight)
+  -- LOVE can't detect if mouse isn't in the screen
+  -- Instead, consider a single-pixel border at the end of the screen
+  -- to be the pseudo "out-of-of-screen"
+  -- If out of screen, don't shake
+  if (x <= 0 or x >= winWidth - 1 or y <= 0 or y >= winHeight - 1) then
+    -- TODO: ease out?
+    self._shakeAmount = 0
+    return
+  end
+
   local dist = self:getDistFrom(x, y)
 
   if (dist > MAX_SHAKE_DIST) then
