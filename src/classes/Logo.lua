@@ -14,7 +14,7 @@ require "utils"
 DVD_LOGO_PATH = 'resources/dvd-logo.png'
 DEFAULT_LOGO_SPEED = 100 -- px/sec
 
-MAX_SHAKE_DIST = 700
+MAX_SHAKE_SCREEN_PERCENT = .5 -- % of screen size
 MAX_SHAKE_OFFSET = 30
 
 -- ** Logo **
@@ -33,12 +33,15 @@ function Logo:onMouseUpdate (x, y, winWidth, winHeight)
   end
 
   local dist = self:getDistFrom(x, y)
+  -- TODO: Could add to event-driven structure
+  local widthHeightAvg = (winWidth + winHeight) / 2
+  local maxShakeDist = MAX_SHAKE_SCREEN_PERCENT * widthHeightAvg
 
-  if (dist > MAX_SHAKE_DIST) then
+  if (dist > maxShakeDist) then
     self._shakeAmount = 0
   else
     -- TODO: eased increase instead of linear
-    self._shakeAmount = (MAX_SHAKE_DIST - dist) / MAX_SHAKE_DIST
+    self._shakeAmount = (maxShakeDist - dist) / maxShakeDist
   end
 end
 
